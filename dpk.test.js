@@ -37,14 +37,25 @@ describe("deterministicPartitionKey behavior when an event with falsy partitionK
   afterEach(() => {
     jest.resetAllMocks();
   });
-  it("Returns hash when a falsy value for 'partitionKey'  is  passed", () => {
+  beforeEach(() => {
+    jest.spyOn(library, "createHash");
     library.createHash = jest.fn().mockImplementation(() => {
       return "9603ab3de34eb8675f94384b3d7d73";
     });
+  });
+
+  it("Returns new hash when a falsy value for 'partitionKey'  is  passed", () => {
     const trivialKey = library.deterministicPartitionKey(
       eventWittFalsyPartitionKey.event
     );
     expect(trivialKey).toEqual("9603ab3de34eb8675f94384b3d7d73");
+  });
+
+  it("Returns new hash when a falsy value for 'partitionKey' is passed", () => {
+    const trivialKey = library.deterministicPartitionKey(
+      eventWittFalsyPartitionKey.event
+    );
+    expect(library.createHash).toHaveBeenCalledTimes(1);
   });
 });
 
@@ -52,10 +63,12 @@ describe("deterministicPartitionKey behavior when an event with partitionKey lon
   afterEach(() => {
     jest.resetAllMocks();
   });
-  it("Returns new hash when a 'partitionKey'  is  longer than max, passed", () => {
+  beforeEach(() => {
     jest.spyOn(library, "createHash");
+  });
+  it("Returns new hash when a 'partitionKey'  is  longer than max, passed", () => {
     const trivialKey = library.deterministicPartitionKey(
-      eventWittFalsyPartitionKey.event
+      eventWithPartitionKeyExceedingMaxLength.event
     );
     expect(library.createHash).toHaveBeenCalledTimes(1);
   });
