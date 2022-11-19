@@ -51,7 +51,7 @@ describe("deterministicPartitionKey behavior when an event with falsy partitionK
     expect(trivialKey).toEqual("9603ab3de34eb8675f94384b3d7d73");
   });
 
-  it("Returns new hash when a falsy value for 'partitionKey' is passed", () => {
+  it("Calls 'createHash' when a falsy value for 'partitionKey' is passed", () => {
     const trivialKey = library.deterministicPartitionKey(
       eventWittFalsyPartitionKey.event
     );
@@ -66,7 +66,7 @@ describe("deterministicPartitionKey behavior when an event with partitionKey lon
   beforeEach(() => {
     jest.spyOn(library, "createHash");
   });
-  it("Returns new hash when a 'partitionKey'  is  longer than max, passed", () => {
+  it("Calls 'createHash' when a 'partitionKey'  is  longer than max, passed", () => {
     const trivialKey = library.deterministicPartitionKey(
       eventWithPartitionKeyExceedingMaxLength.event
     );
