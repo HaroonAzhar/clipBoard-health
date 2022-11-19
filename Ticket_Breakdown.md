@@ -33,9 +33,26 @@ Things to do:
 
 Acceptance test:
 1-run(terminal/GUI tool) a `select` query to show first 100 clumns.
-2-validate that all previous/currentcolumns have  the  `CustomId` coulmn
+2-validate that all previous/currentcolumns have  the  `CustomId` column
+
+//Asumptions:
+ //1- The `getShiftsByFacility` generates query using `id` of shifts and agents as foreign key stored for a facility in the facilities table , then groups them by facility(`id`)
+ //2- Epic is a collection of tickets/task that collective create a feature. 
+ //
+###Ticket NO.2(Epic ID: 1- add-custom-agent-id-to-reports)
+TASK: Use the  new column `CustomId` instead of the  db `id` inside the `getShiftsByFacility`  function.
+
+Currently the  `getShiftsByFacility` use select query to get the metadata of agents and agregates(join) them with shifts table coulmns by the agent's `id`.
+Filter the coulmns in the joined result, to remove the `id` column and instead fetch/output `CustomId` column. 
 
 
+After the work the `getShiftsByFacility` function output returns  `CustomId` in the  agents' metadata instead of db's internal id or value `id` column 
+
+Things to do: 
+1-re-write the query used inside  `getShiftsByFacility` to remove the `id` column and instead fetch/output `CustomId` column.
 
 
+Acceptance test:
+1-run  `getShiftsByFacility` with a facility id 
+2-validate that the `CustomId`  is outputed instead of `id` in the  shifts passed to  `generateReport` function. 
 
