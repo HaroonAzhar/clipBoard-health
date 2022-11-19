@@ -1,6 +1,5 @@
 let library = require("./dpk");
-const { test1, test2, test3 } = require("./testFactory");
-const crypto = require("crypto");
+const { test1, test2, test3, test4 } = require("./testFactory");
 describe("deterministicPartitionKey", () => {
   afterEach(() => {
     jest.resetAllMocks();
@@ -23,5 +22,11 @@ describe("deterministicPartitionKey", () => {
     });
     const trivialKey = library.deterministicPartitionKey(test2.data);
     expect(trivialKey).toEqual("9603ab3de34eb8675f94384b3d7d73");
+  });
+  it("Returns new hash when a 'partitionKey'  is  longer than max, passed", () => {
+    jest.spyOn(library, "createHash");
+    const trivialKey = library.deterministicPartitionKey(test4.data);
+    expect(library.createHash).toHaveBeenCalledTimes(1);
+    expect(trivialKey).not.toEqual(test4.data.partitionKey);
   });
 });
